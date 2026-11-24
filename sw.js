@@ -1,6 +1,6 @@
 /* Monitor Buget - service worker: functioneaza offline.
    Cand publici o versiune noua, schimba numarul din CACHE ca telefoanele sa o primeasca. */
-const CACHE='monitor-buget-v1';
+const CACHE='monitor-buget-v3';
 const SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));

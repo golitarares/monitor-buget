@@ -2603,9 +2603,9 @@ const __ds_scope = {};
 </helmet>
 <div style="position:fixed;inset:0;background:color-mix(in srgb,var(--color-bg) 72%,#000);font-family:var(--font-body);color:var(--color-text)">
 <div style="position:relative;height:100%;width:min(100%,520px);margin:0 auto">
-<div style="position:relative;width:100%;height:100%;overflow:hidden;background:radial-gradient(120% 55% at 0% 0%,color-mix(in srgb,var(--color-accent) 10%,var(--color-bg)) 0%,var(--color-bg) 60%)">
+<div ref="{{ screenRef }}" style="position:relative;width:100%;height:100%;overflow:hidden;background:radial-gradient(120% 55% at 0% 0%,color-mix(in srgb,var(--color-accent) 10%,var(--color-bg)) 0%,var(--color-bg) 60%)">
 
-<div class="mb-scroll" ref="{{ scrollRef }}" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain">
+<div class="mb-scroll" data-layer="page" ref="{{ scrollRef }}" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain">
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
 <main style="min-height:100%;display:flex;flex-direction:column;padding:28px 20px 40px">
@@ -2616,7 +2616,15 @@ const __ds_scope = {};
 </sc-for>
 </div>
 </div>
-<div style="margin-top:64px;width:28px;height:2px;background:var(--color-accent);box-shadow:0 0 14px var(--color-accent)"></div>
+<sc-if value="{{ showInst }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;padding:12px 12px 12px 14px;border-radius:14px;background:color-mix(in srgb,var(--color-accent) 12%,var(--color-surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--color-accent) 45%,transparent)">
+<svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="var(--color-accent-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"></path></svg>
+<div style="min-width:0;flex:1"><div style="font-size:14px;font-weight:500;color:var(--color-text)">{{ s.instT }}</div><div style="font-size:13px;line-height:1.45;color:var(--color-neutral-300);margin-top:3px">{{ instText }}</div>
+<sc-if value="{{ hasBip }}" hint-placeholder-val="{{ false }}"><button sc-camel-on-click="{{ doInstall }}" style="margin-top:10px;background:var(--color-accent);color:var(--color-neutral-950, #12131f);border:0;border-radius:10px;padding:9px 16px;font:600 14px var(--font-body);cursor:pointer">{{ s.instBtn }}</button></sc-if></div>
+<button sc-camel-on-click="{{ hideInst }}" style="flex:none;background:transparent;border:0;color:var(--color-neutral-400);padding:4px 6px;font:500 13px var(--font-body);cursor:pointer">{{ s.instOk }}</button>
+</div>
+</sc-if>
+<div style="margin-top:{{ topGap }};width:28px;height:2px;background:var(--color-accent);box-shadow:0 0 14px var(--color-accent)"></div>
 <h1 style="font-size:36px;margin:18px 0 8px">{{ s.app }}</h1>
 <p style="margin:0;font-size:16px;color:var(--color-neutral-400);max-width:280px;text-wrap:pretty">{{ s.homeLead }}</p>
 <div style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
@@ -2687,7 +2695,7 @@ const __ds_scope = {};
 <button sc-camel-on-click="{{ toggleAll }}" style="margin-left:auto;background:transparent;border:1px solid {{ allBc }};color:{{ allFg }};border-radius:999px;padding:6px 12px;font:500 12px var(--font-body);cursor:pointer">{{ s.allTime }}</button>
 </div>
 
-<section style="margin-top:14px;padding:20px 18px 18px;border-radius:14px;background:linear-gradient(160deg,color-mix(in srgb,var(--color-accent) 9%,var(--color-surface)),var(--color-surface) 70%);box-shadow:var(--shadow-sm)">
+<section data-month="1" style="margin-top:14px;padding:20px 18px 18px;border-radius:14px;background:linear-gradient(160deg,color-mix(in srgb,var(--color-accent) 9%,var(--color-surface)),var(--color-surface) 70%);box-shadow:var(--shadow-sm)">
 <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-400)">{{ s.balance }}</div>
 <div style="font-size:38px;font-weight:500;letter-spacing:-0.02em;line-height:1.15;margin-top:4px;font-variant-numeric:tabular-nums;color:{{ balColor }}">{{ bal }}</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px">
@@ -2700,7 +2708,7 @@ const __ds_scope = {};
 
 <sc-if value="{{ isHH }}" hint-placeholder-val="{{ false }}">
 <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-400);margin:22px 0 8px">{{ s.byMember }}</div>
-<div style="border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);padding:4px 14px">
+<div data-month="1" style="border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);padding:4px 14px">
 <sc-for list="{{ memberRows }}" as="m" hint-placeholder-count="2">
 <div style="display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;box-shadow:{{ m.rule }}">
 <span style="font-size:14px;font-weight:500">{{ m.name }}</span>
@@ -2722,7 +2730,7 @@ const __ds_scope = {};
 <div style="margin-top:10px;padding:22px 16px;border-radius:14px;border:1px dashed var(--color-neutral-700);color:var(--color-neutral-400);font-size:14px;text-wrap:pretty">{{ emptyText }}</div>
 </sc-if>
 <sc-for list="{{ days }}" as="d" hint-placeholder-count="3">
-<section style="margin-top:16px">
+<section data-month="1" style="margin-top:16px">
 <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-neutral-400);margin-bottom:6px;padding:0 2px"><span>{{ d.label }}</span><span style="font-variant-numeric:tabular-nums">{{ d.net }}</span></div>
 <div style="border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
 <sc-for list="{{ d.items }}" as="x" hint-placeholder-count="2">
@@ -2760,15 +2768,21 @@ const __ds_scope = {};
 
 <sc-if value="{{ tCharts }}" hint-placeholder-val="{{ false }}">
 <h1 style="font-size:28px;margin:18px 0 12px">{{ s.charts }}</h1>
-<div style="display:flex;align-items:center;gap:6px">
-<button class="btn btn-icon btn-ghost" sc-camel-on-click="{{ winPrev }}" style="width:36px;height:36px;padding:0"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<span style="font-size:14px;font-weight:500;flex:1;text-align:center">{{ winLabel }}</span>
-<button class="btn btn-icon btn-ghost" sc-camel-on-click="{{ winNext }}" style="width:36px;height:36px;padding:0"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button>
-</div>
+<div style="font-size:14px;font-weight:500;color:var(--color-neutral-400)">{{ s.allTime }} · {{ winLabel }}</div>
 <sc-if value="{{ noYear }}" hint-placeholder-val="{{ false }}">
 <div style="margin-top:12px;padding:22px 16px;border-radius:14px;border:1px dashed var(--color-neutral-700);color:var(--color-neutral-400);font-size:14px">{{ s.noYear }}</div>
 </sc-if>
 <sc-if value="{{ hasYear }}" hint-placeholder-val="{{ true }}">
+<section style="margin-top:10px;padding:16px;border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;gap:14px">
+<div style="min-width:0"><div style="font-size:15px;font-weight:500">{{ s.allTime }}</div>
+<div style="display:grid;grid-template-columns:auto auto;gap:3px 14px;margin-top:8px;font-size:13px;font-variant-numeric:tabular-nums"><span style="color:var(--color-neutral-400)">{{ s.income }}</span><span style="color:oklch(0.78 0.12 158)">{{ tot.inc }}</span><span style="color:var(--color-neutral-400)">{{ s.expenses }}</span><span style="color:oklch(0.72 0.14 28)">{{ tot.exp }}</span><span style="color:var(--color-neutral-400)">{{ s.savings }}</span><span style="color:{{ tot.savColor }}">{{ tot.sav }}</span></div></div>
+<svg width="104" height="104" sc-camel-view-box="0 0 72 72" style="flex:none">
+<circle cx="36" cy="36" r="28" fill="none" stroke="var(--color-neutral-800)" stroke-width="9"></circle>
+<circle cx="36" cy="36" r="28" fill="none" stroke="oklch(0.78 0.12 158)" stroke-width="9" stroke-dasharray="{{ tot.gDash }}" transform="rotate(-90 36 36)"></circle>
+<circle cx="36" cy="36" r="28" fill="none" stroke="oklch(0.72 0.14 28)" stroke-width="9" stroke-dasharray="{{ tot.rDash }}" stroke-dashoffset="{{ tot.rOff }}" transform="rotate(-90 36 36)"></circle>
+<text x="36" y="40.5" text-anchor="middle" font-size="12.5" font-weight="500" fill="{{ tot.pctColor }}" font-family="Inter, sans-serif">{{ tot.pct }}</text>
+</svg>
+</section>
 <section style="margin-top:10px;padding:14px 12px 12px;border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
 <div style="display:flex;gap:14px;font-size:12px;color:var(--color-neutral-400);padding:0 4px 10px">
 <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:2px;background:oklch(0.78 0.12 158)"></span>{{ s.income }}</span>
@@ -2780,13 +2794,13 @@ const __ds_scope = {};
 <path d="{{ ch.grid }}" stroke="var(--color-neutral-800)" stroke-width="1" fill="none"></path>
 <path d="{{ ch.zero }}" stroke="var(--color-neutral-600)" stroke-width="1" fill="none"></path>
 <path d="{{ ch.cross }}" stroke="var(--color-neutral-500)" stroke-width="1" stroke-dasharray="3 3" fill="none"></path>
-<path d="{{ ch.savArea }}" fill="var(--color-accent)" opacity=".14"></path>
-<path d="{{ ch.inc }}" stroke="oklch(0.78 0.12 158)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-<path d="{{ ch.exp }}" stroke="oklch(0.72 0.14 28)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-<path d="{{ ch.sav }}" stroke="var(--color-accent-400)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-<path d="{{ ch.dInc }}" fill="oklch(0.78 0.12 158)" stroke="var(--color-surface)" stroke-width="1.5"></path>
-<path d="{{ ch.dExp }}" fill="oklch(0.72 0.14 28)" stroke="var(--color-surface)" stroke-width="1.5"></path>
-<path d="{{ ch.dSav }}" fill="var(--color-accent-400)" stroke="var(--color-surface)" stroke-width="1.5"></path>
+<path data-late="1" d="{{ ch.savArea }}" fill="var(--color-accent)" opacity=".14"></path>
+<path data-draw="1" d="{{ ch.inc }}" stroke="oklch(0.78 0.12 158)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
+<path data-draw="1" d="{{ ch.exp }}" stroke="oklch(0.72 0.14 28)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
+<path data-draw="1" d="{{ ch.sav }}" stroke="var(--color-accent-400)" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
+<path data-late="1" d="{{ ch.dInc }}" fill="oklch(0.78 0.12 158)" stroke="var(--color-surface)" stroke-width="1.5"></path>
+<path data-late="1" d="{{ ch.dExp }}" fill="oklch(0.72 0.14 28)" stroke="var(--color-surface)" stroke-width="1.5"></path>
+<path data-late="1" d="{{ ch.dSav }}" fill="var(--color-accent-400)" stroke="var(--color-surface)" stroke-width="1.5"></path>
 </svg>
 <sc-for list="{{ ch.yTicks }}" as="t" hint-placeholder-count="4">
 <span style="position:absolute;left:0;width:30px;text-align:right;font-size:10px;color:var(--color-neutral-500);top:{{ t.top }}">{{ t.label }}</span>
@@ -2869,14 +2883,14 @@ const __ds_scope = {};
 </div>
 
 <sc-if value="{{ showFab }}" hint-placeholder-val="{{ false }}">
-<button sc-camel-on-click="{{ openAdd }}" aria-label="{{ s.addTx }}" style="position:absolute;right:20px;bottom:calc(94px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:1px solid var(--color-accent);background:color-mix(in srgb,var(--color-accent) 14%,var(--color-bg));color:var(--color-accent-300);display:grid;place-items:center;cursor:pointer;z-index:12;box-shadow:0 0 26px color-mix(in srgb,var(--color-accent) 45%,transparent),0 8px 20px rgba(0,0,0,.5)" style-hover="background:color-mix(in srgb,var(--color-accent) 24%,var(--color-bg))" style-active="transform:scale(.95)"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+<button data-layer="fab" sc-camel-on-click="{{ openAdd }}" aria-label="{{ s.addTx }}" style="position:absolute;right:20px;bottom:calc(94px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:1px solid var(--color-accent);background:color-mix(in srgb,var(--color-accent) 14%,var(--color-bg));color:var(--color-accent-300);display:grid;place-items:center;cursor:pointer;z-index:12;box-shadow:0 0 26px color-mix(in srgb,var(--color-accent) 45%,transparent),0 8px 20px rgba(0,0,0,.5)" style-hover="background:color-mix(in srgb,var(--color-accent) 24%,var(--color-bg))"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </sc-if>
 
 <sc-if value="{{ showTabbar }}" hint-placeholder-val="{{ false }}">
-<nav style="position:absolute;left:0;right:0;bottom:0;padding:6px 10px calc(14px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--color-bg) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:10;box-shadow:0 -1px 0 var(--color-divider)">
+<nav data-layer="tabbar" style="position:absolute;left:0;right:0;bottom:0;padding:6px 10px calc(14px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--color-bg) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:10;box-shadow:0 -1px 0 var(--color-divider)">
 <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
-<button sc-camel-on-click="{{ t.onClick }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:0;padding:6px 0;min-height:50px;cursor:pointer;color:{{ t.color }};font:500 11px var(--font-body)">
-<span style="width:18px;height:2px;border-radius:1px;margin-bottom:2px;background:{{ t.mark }};box-shadow:0 0 8px {{ t.mark }}"></span>
+<button sc-camel-on-click="{{ t.onClick }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:0;padding:6px 0;min-height:50px;cursor:pointer;color:{{ t.color }};font:500 11px var(--font-body);transition:color .25s">
+<span style="width:18px;height:2px;border-radius:1px;margin-bottom:2px;transition:background .25s,box-shadow .25s;background:{{ t.mark }};box-shadow:0 0 8px {{ t.mark }}"></span>
 <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ t.icon }}"></path></svg>
 <span>{{ t.label }}</span>
 </button>
@@ -2885,14 +2899,14 @@ const __ds_scope = {};
 </sc-if>
 
 <sc-if value="{{ impOpen }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;bottom:0;background:var(--color-bg);z-index:20;display:flex;flex-direction:column;animation:mbFade .18s ease-out">
+<div style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;bottom:0;background:var(--color-bg);z-index:20;display:flex;flex-direction:column" data-layer="overlay">
 <div class="mb-scroll" style="flex:1;overflow-y:auto;padding:8px 20px 20px">
 <header style="display:flex;align-items:center;gap:10px;min-height:48px">
 <button class="btn btn-icon btn-secondary" sc-camel-on-click="{{ impBack }}" aria-label="{{ s.back }}" style="width:40px;height:40px;border-radius:50%"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="display:flex;flex-direction:column;min-width:0"><span style="font-size:17px;font-weight:500">{{ s.impTitle }}</span><span style="font-size:12px;color:var(--color-neutral-400);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ impFile }}</span></div>
 </header>
 <sc-if value="{{ impDone }}" hint-placeholder-val="{{ false }}">
-<section style="margin-top:28px;padding:22px 18px;border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px">
+<section style="animation:mbPop .45s cubic-bezier(.34,1.4,.64,1);margin-top:28px;padding:22px 18px;border-radius:14px;background:var(--color-surface);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px">
 <span style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid oklch(0.78 0.12 158);color:oklch(0.78 0.12 158)"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
 <div style="font-size:19px;font-weight:500">{{ impDoneText }}</div>
 <button class="btn btn-primary btn-block" sc-camel-on-click="{{ impOpenMonth }}" style="min-height:46px">{{ impOpenLabel }}</button>
@@ -2933,14 +2947,14 @@ const __ds_scope = {};
 </sc-if>
 
 <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:20px;right:20px;top:calc(env(safe-area-inset-top,0px) + 18px);z-index:50;padding:12px 14px;border-radius:12px;background:var(--color-surface);box-shadow:var(--shadow-md);display:flex;gap:10px;align-items:center;font-size:14px;animation:mbUp .2s ease-out"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.78 0.12 158);box-shadow:0 0 8px oklch(0.78 0.12 158)"></span>{{ toast }}</div>
+<div ref="{{ toastRef }}" style="position:absolute;left:20px;right:20px;top:calc(env(safe-area-inset-top,0px) + 18px);z-index:50;padding:12px 14px;border-radius:12px;background:var(--color-surface);box-shadow:var(--shadow-md);display:flex;gap:10px;align-items:center;font-size:14px;animation:mbDrop .45s cubic-bezier(.34,1.4,.64,1)"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.78 0.12 158);box-shadow:0 0 8px oklch(0.78 0.12 158)"></span>{{ toast }}</div>
 </sc-if>
 
 <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;justify-content:flex-end">
-<div sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:color-mix(in srgb,var(--color-neutral-900) 70%,transparent);animation:mbFade .2s ease-out"></div>
-<div class="mb-scroll" style="position:relative;max-height:90%;overflow-y:auto;background:var(--color-surface);border-radius:22px 22px 0 0;box-shadow:var(--shadow-lg);padding:10px 20px 34px;animation:mbUp .24s cubic-bezier(.2,.8,.3,1)">
-<div style="width:38px;height:4px;border-radius:2px;background:var(--color-neutral-700);margin:0 auto 12px"></div>
+<div ref="{{ sheetBgRef }}" sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:color-mix(in srgb,var(--color-neutral-900) 70%,transparent);animation:mbFade .3s ease-out"></div>
+<div class="mb-scroll" style="position:relative;max-height:90%;overflow-y:auto;background:var(--color-surface);border-radius:22px 22px 0 0;box-shadow:var(--shadow-lg);padding:10px 20px 34px;animation:mbSheet .46s cubic-bezier(.32,.72,0,1)" ref="{{ sheetRef }}">
+<div sc-camel-on-pointer-down="{{ sheetDrag }}" style="margin:-10px -20px 0;padding:10px 0 14px;cursor:grab;touch-action:none"><div style="width:38px;height:4px;border-radius:2px;background:var(--color-neutral-700);margin:0 auto"></div></div>
 
 <sc-if value="{{ sheetTx }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:19px;font-weight:500">{{ formTitle }}</span><button class="btn btn-icon btn-secondary" sc-camel-on-click="{{ closeSheet }}" aria-label="{{ s.cancel }}" style="border-radius:50%"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
@@ -3003,8 +3017,8 @@ const __ds_scope = {};
 </sc-if>
 
 <sc-if value="{{ dlgOpen }}" hint-placeholder-val="{{ false }}">
-<div class="dialog-backdrop" style="position:absolute;z-index:45;animation:mbFade .18s ease-out">
-<div class="dialog" style="animation:mbUp .2s ease-out">
+<div class="dialog-backdrop" ref="{{ dlgBgRef }}" style="position:absolute;z-index:45;animation:mbFade .2s ease-out">
+<div class="dialog" ref="{{ dlgRef }}" style="animation:mbPop .34s cubic-bezier(.34,1.4,.64,1)">
 <div class="dialog-title">{{ dlg.title }}</div>
 <div class="dialog-body" style="text-wrap:pretty">{{ dlg.body }}</div>
 <div class="dialog-actions"><button class="btn btn-secondary" sc-camel-on-click="{{ dlgCancel }}" style="min-height:44px">{{ s.cancel }}</button><button class="btn" sc-camel-on-click="{{ dlgYes }}" style="min-height:44px;border:1px solid oklch(0.72 0.14 28);color:oklch(0.72 0.14 28)">{{ dlg.yes }}</button></div>
@@ -3017,7 +3031,7 @@ const __ds_scope = {};
 </div>
 </div>
 </x-dc>
-<script>if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<script>window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__bip=e});if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ro&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ro&quot;,&quot;tsType&quot;:&quot;'ro'|'en'&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;personal&quot;,&quot;household&quot;,&quot;history&quot;,&quot;charts&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 const KEY='monitor-buget-app-v1';
 const PRESET=['RON','EUR','USD','GBP'];
@@ -3034,8 +3048,8 @@ function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 function seed(){return {profiles:[]}}
 const T={
-ro:{app:'Monitor Buget',homeLead:'Alege cum vrei să-ți urmărești banii.',personal:'Personal',household:'Gospodărie',personalDesc:'Veniturile și cheltuielile tale, pe profile separate.',householdDesc:'Mai mulți membri, cu totaluri comune și defalcare pe persoană.',homeFoot:'Datele rămân pe acest dispozitiv.',curPh:'ex. CHF',bkH:'Copie de siguranță',bkHint:'Salvează datele într-un fișier, ca să nu le pierzi dacă ștergi datele browserului sau schimbi telefonul.',bkExp:'Exportă backup',bkImp:'Importă backup',okExport:'Backup descărcat.',okRestore:'Datele au fost restaurate.',errBackup:'Fișier de backup invalid.',restoreT:'Restaurezi backup-ul?',restoreQ:'Datele de pe acest dispozitiv vor fi înlocuite cu cele din fișier.',restoreYes:'Da, restaurează',errImp:'Nu am putut citi extrasul. Verifică să fie .xlsx sau .csv, cu coloane de dată și sumă.',impFlip:'Inversează venituri / cheltuieli',home:'Acasă',listH_personal:'Profile personale',listH_household:'Gospodării',listL_personal:'Alege un profil sau creează unul nou.',listL_household:'Alege o gospodărie sau creează una nouă.',new_personal:'Profil nou',new_household:'Gospodărie nouă',empty:'Încă nu ai creat niciunul. Apasă butonul de mai jos.',name:'Nume',ph_personal:'ex. Rareș',ph_household:'ex. Casa',membersLbl:'Membri (separați prin virgulă)',phMembers:'ex. Eu, Rareș',currencies:'Monede',create:'Creează',cancel:'Anulează',income:'Venituri',expenses:'Cheltuieli',balance:'Sold',savings:'Economii',allTime:'Toată perioada',overview:'Buget',history:'Istoric',charts:'Grafice',settings:'Setări',addTx:'Adaugă tranzacție',editTx:'Editează tranzacția',tExpense:'Cheltuială',tIncome:'Venit',amount:'Sumă',date:'Data',category:'Categorie',newCat:'+ Categorie nouă',newCatPh:'Numele categoriei noi',member:'Membru',common:'Comun',note:'Notă (opțional)',add:'Adaugă',saveChanges:'Salvează modificările',save:'Salvează',del:'Șterge',delQ:'Ștergi tranzacția?',yesDel:'Da, șterge',upload:'Încarcă extras de cont',uploadHint:'.xlsx sau .csv · rămâne pe dispozitiv',impTitle:'Import extras de cont',impLead:'Am citit {n} rânduri și am sugerat categorii. Debifează ce nu vrei și apasă pe o categorie ca s-o schimbi.',impSel:'{n} din {t} selectate · venituri {i} · cheltuieli {e}',impBtn:'Importă {n} tranzacții',impDup:' · Există deja',impDone:'Gata, am importat {n} tranzacții.',openMonth:'Deschide {m}',byMonth:'Pe luni',pctLeft:'{p}% din venit rămas',spent:'{p}% din venit cheltuit',resetMonth:'Resetează luna',resetT:'Resetezi {m}?',resetQ:'Se șterg toate cele {n} tranzacții din această lună, iar valorile devin 0.',resetYes:'Da, resetează',emptyMonth:'Nicio tranzacție în {m}. Apasă + ca să adaugi prima.',emptyAll:'Nicio tranzacție încă. Apasă + ca să adaugi prima.',histLead:'Fiecare lună cu tranzacții. Apasă pe o lună ca să o deschizi.',histEmpty:'Lunile apar după ce adaugi prima tranzacție.',transactions:'Tranzacții',byMember:'Pe membri',membersH:'Membri',addMember:'Membru nou',customCats:'Categorii proprii',noCustom:'Le creezi din formular, cu „+ Categorie nouă”.',language:'Limbă',danger:'Zonă periculoasă',delProf_personal:'Șterge acest profil',delProf_household:'Șterge această gospodărie',delProfT:'Ștergi „{n}”?',delProfQ:'Se șterg profilul și toate tranzacțiile lui.',delMemT:'Ștergi membrul {n}?',delMemQ:'Tranzacțiile lui trec la „Comun”.',okAdded:'Tranzacția a fost adăugată.',okSaved:'Modificările au fost salvate.',okDeleted:'Tranzacția a fost ștearsă.',okRenamed:'Numele a fost salvat.',errAmount:'Introdu o sumă mai mare ca 0.',errDate:'Alege o dată.',errName:'Scrie un nume.',errMember:'Adaugă cel puțin un membru.',errCat:'Scrie numele categoriei noi.',errCur:'Alege cel puțin o monedă.',errCurLast:'Trebuie să rămână cel puțin o monedă.',errCurTx:'{c} are tranzacții și nu poate fi scoasă.',back:'Înapoi',noYear:'Nicio tranzacție în această perioadă.',demoFile:'extras_cont_exemplu.xlsx',txN:'{n} tranzacții',tx1:'1 tranzacție',thisMonth:'luna aceasta',kInc:'venit',kExp:'cheltuială'},
-en:{app:'Budget Monitor',homeLead:'Choose how you want to track your money.',personal:'Personal',household:'Household',personalDesc:'Your own income and expenses, in separate profiles.',householdDesc:'Several members, with shared totals and a breakdown per person.',homeFoot:'Your data stays on this device.',curPh:'e.g. CHF',bkH:'Backup',bkHint:'Save your data to a file so you do not lose it if browser data is cleared or you change phone.',bkExp:'Export backup',bkImp:'Import backup',okExport:'Backup downloaded.',okRestore:'Data restored.',errBackup:'Invalid backup file.',restoreT:'Restore backup?',restoreQ:'Data on this device will be replaced with the data from the file.',restoreYes:'Yes, restore',errImp:'Could not read the statement. Make sure it is .xlsx or .csv with date and amount columns.',impFlip:'Swap income / expenses',home:'Home',listH_personal:'Personal profiles',listH_household:'Households',listL_personal:'Pick a profile or create a new one.',listL_household:'Pick a household or create a new one.',new_personal:'New profile',new_household:'New household',empty:"You haven't created any yet. Use the button below.",name:'Name',ph_personal:'e.g. Alex',ph_household:'e.g. Home',membersLbl:'Members (comma-separated)',phMembers:'e.g. Me, Alex',currencies:'Currencies',create:'Create',cancel:'Cancel',income:'Income',expenses:'Expenses',balance:'Balance',savings:'Savings',allTime:'All time',overview:'Budget',history:'History',charts:'Charts',settings:'Settings',addTx:'Add transaction',editTx:'Edit transaction',tExpense:'Expense',tIncome:'Income',amount:'Amount',date:'Date',category:'Category',newCat:'+ New category',newCatPh:'New category name',member:'Member',common:'Shared',note:'Note (optional)',add:'Add',saveChanges:'Save changes',save:'Save',del:'Delete',delQ:'Delete this transaction?',yesDel:'Yes, delete',upload:'Upload bank statement',uploadHint:'.xlsx or .csv · stays on your device',impTitle:'Statement import',impLead:'{n} rows read, with suggested categories. Untick what you don’t want and tap a category to change it.',impSel:'{n} of {t} selected · income {i} · expenses {e}',impBtn:'Import {n} transactions',impDup:' · Already added',impDone:'Done, {n} transactions imported.',openMonth:'Open {m}',byMonth:'By month',pctLeft:'{p}% of income left',spent:'{p}% of income spent',resetMonth:'Reset month',resetT:'Reset {m}?',resetQ:'All {n} transactions in this month will be deleted and the values become 0.',resetYes:'Yes, reset',emptyMonth:'No transactions in {m}. Tap + to add the first one.',emptyAll:'No transactions yet. Tap + to add the first one.',histLead:'Every month with transactions. Tap a month to open it.',histEmpty:'Months appear after you add the first transaction.',transactions:'Transactions',byMember:'By member',membersH:'Members',addMember:'New member',customCats:'Custom categories',noCustom:'Create them from the form with “+ New category”.',language:'Language',danger:'Danger zone',delProf_personal:'Delete this profile',delProf_household:'Delete this household',delProfT:'Delete “{n}”?',delProfQ:'The profile and all its transactions will be deleted.',delMemT:'Remove {n}?',delMemQ:'Their transactions move to “Shared”.',okAdded:'Transaction added.',okSaved:'Changes saved.',okDeleted:'Transaction deleted.',okRenamed:'Name saved.',errAmount:'Enter an amount greater than 0.',errDate:'Pick a date.',errName:'Enter a name.',errMember:'Add at least one member.',errCat:'Enter the new category name.',errCur:'Pick at least one currency.',errCurLast:'At least one currency must remain.',errCurTx:'{c} has transactions and cannot be removed.',back:'Back',noYear:'No transactions in this period.',demoFile:'statement_sample.xlsx',txN:'{n} transactions',tx1:'1 transaction',thisMonth:'this month',kInc:'income',kExp:'expense'}
+ro:{app:'Monitor Buget',homeLead:'Alege cum vrei să-ți urmărești banii.',personal:'Personal',household:'Gospodărie',personalDesc:'Veniturile și cheltuielile tale, pe profile separate.',householdDesc:'Mai mulți membri, cu totaluri comune și defalcare pe persoană.',homeFoot:'Datele rămân pe acest dispozitiv.',curPh:'ex. CHF',bkH:'Copie de siguranță',bkHint:'Salvează datele într-un fișier, ca să nu le pierzi dacă ștergi datele browserului sau schimbi telefonul.',bkExp:'Exportă backup',bkImp:'Importă backup',okExport:'Backup descărcat.',okRestore:'Datele au fost restaurate.',errBackup:'Fișier de backup invalid.',restoreT:'Restaurezi backup-ul?',restoreQ:'Datele de pe acest dispozitiv vor fi înlocuite cu cele din fișier.',restoreYes:'Da, restaurează',errImp:'Nu am putut citi extrasul. Verifică să fie .xlsx sau .csv, cu coloane de dată și sumă.',impFlip:'Inversează venituri / cheltuieli',instT:'Instalează aplicația',instBtn:'Instalează acum',instBip:'Apasă butonul de mai jos și aplicația se adaugă pe ecranul principal.',instOk:'Am înțeles',instAnd:'Ca să vezi aplicația corect, deschide meniul ⋮ al browserului și apasă „Instalează și creează o comandă rapidă”.',instIos:'Ca să vezi aplicația corect, apasă Partajează și alege „Adaugă pe ecranul principal”.',home:'Acasă',listH_personal:'Profile personale',listH_household:'Gospodării',listL_personal:'Alege un profil sau creează unul nou.',listL_household:'Alege o gospodărie sau creează una nouă.',new_personal:'Profil nou',new_household:'Gospodărie nouă',empty:'Încă nu ai creat niciunul. Apasă butonul de mai jos.',name:'Nume',ph_personal:'ex. Rareș',ph_household:'ex. Casa',membersLbl:'Membri (separați prin virgulă)',phMembers:'ex. Eu, Rareș',currencies:'Monede',create:'Creează',cancel:'Anulează',income:'Venituri',expenses:'Cheltuieli',balance:'Sold',savings:'Economii',allTime:'Toată perioada',overview:'Buget',history:'Istoric',charts:'Grafice',settings:'Setări',addTx:'Adaugă tranzacție',editTx:'Editează tranzacția',tExpense:'Cheltuială',tIncome:'Venit',amount:'Sumă',date:'Data',category:'Categorie',newCat:'+ Categorie nouă',newCatPh:'Numele categoriei noi',member:'Membru',common:'Comun',note:'Notă (opțional)',add:'Adaugă',saveChanges:'Salvează modificările',save:'Salvează',del:'Șterge',delQ:'Ștergi tranzacția?',yesDel:'Da, șterge',upload:'Încarcă extras de cont',uploadHint:'.xlsx sau .csv · rămâne pe dispozitiv',impTitle:'Import extras de cont',impLead:'Am citit {n} rânduri și am sugerat categorii. Debifează ce nu vrei și apasă pe o categorie ca s-o schimbi.',impSel:'{n} din {t} selectate · venituri {i} · cheltuieli {e}',impBtn:'Importă {n} tranzacții',impDup:' · Există deja',impDone:'Gata, am importat {n} tranzacții.',openMonth:'Deschide {m}',byMonth:'Pe luni',pctLeft:'{p}% din venit rămas',spent:'{p}% din venit cheltuit',resetMonth:'Resetează luna',resetT:'Resetezi {m}?',resetQ:'Se șterg toate cele {n} tranzacții din această lună, iar valorile devin 0.',resetYes:'Da, resetează',emptyMonth:'Nicio tranzacție în {m}. Apasă + ca să adaugi prima.',emptyAll:'Nicio tranzacție încă. Apasă + ca să adaugi prima.',histLead:'Fiecare lună cu tranzacții. Apasă pe o lună ca să o deschizi.',histEmpty:'Lunile apar după ce adaugi prima tranzacție.',transactions:'Tranzacții',byMember:'Pe membri',membersH:'Membri',addMember:'Membru nou',customCats:'Categorii proprii',noCustom:'Le creezi din formular, cu „+ Categorie nouă”.',language:'Limbă',danger:'Zonă periculoasă',delProf_personal:'Șterge acest profil',delProf_household:'Șterge această gospodărie',delProfT:'Ștergi „{n}”?',delProfQ:'Se șterg profilul și toate tranzacțiile lui.',delMemT:'Ștergi membrul {n}?',delMemQ:'Tranzacțiile lui trec la „Comun”.',okAdded:'Tranzacția a fost adăugată.',okSaved:'Modificările au fost salvate.',okDeleted:'Tranzacția a fost ștearsă.',okRenamed:'Numele a fost salvat.',errAmount:'Introdu o sumă mai mare ca 0.',errDate:'Alege o dată.',errName:'Scrie un nume.',errMember:'Adaugă cel puțin un membru.',errCat:'Scrie numele categoriei noi.',errCur:'Alege cel puțin o monedă.',errCurLast:'Trebuie să rămână cel puțin o monedă.',errCurTx:'{c} are tranzacții și nu poate fi scoasă.',back:'Înapoi',noYear:'Nicio tranzacție în această perioadă.',demoFile:'extras_cont_exemplu.xlsx',txN:'{n} tranzacții',tx1:'1 tranzacție',thisMonth:'luna aceasta',kInc:'venit',kExp:'cheltuială'},
+en:{app:'Budget Monitor',homeLead:'Choose how you want to track your money.',personal:'Personal',household:'Household',personalDesc:'Your own income and expenses, in separate profiles.',householdDesc:'Several members, with shared totals and a breakdown per person.',homeFoot:'Your data stays on this device.',curPh:'e.g. CHF',bkH:'Backup',bkHint:'Save your data to a file so you do not lose it if browser data is cleared or you change phone.',bkExp:'Export backup',bkImp:'Import backup',okExport:'Backup downloaded.',okRestore:'Data restored.',errBackup:'Invalid backup file.',restoreT:'Restore backup?',restoreQ:'Data on this device will be replaced with the data from the file.',restoreYes:'Yes, restore',errImp:'Could not read the statement. Make sure it is .xlsx or .csv with date and amount columns.',impFlip:'Swap income / expenses',instT:'Install the app',instBtn:'Install now',instBip:'Tap the button below and the app is added to your home screen.',instOk:'Got it',instAnd:'To see the app properly, open the browser ⋮ menu and tap “Install and create shortcut”.',instIos:'To see the app properly, tap Share and choose “Add to Home Screen”.',home:'Home',listH_personal:'Personal profiles',listH_household:'Households',listL_personal:'Pick a profile or create a new one.',listL_household:'Pick a household or create a new one.',new_personal:'New profile',new_household:'New household',empty:"You haven't created any yet. Use the button below.",name:'Name',ph_personal:'e.g. Alex',ph_household:'e.g. Home',membersLbl:'Members (comma-separated)',phMembers:'e.g. Me, Alex',currencies:'Currencies',create:'Create',cancel:'Cancel',income:'Income',expenses:'Expenses',balance:'Balance',savings:'Savings',allTime:'All time',overview:'Budget',history:'History',charts:'Charts',settings:'Settings',addTx:'Add transaction',editTx:'Edit transaction',tExpense:'Expense',tIncome:'Income',amount:'Amount',date:'Date',category:'Category',newCat:'+ New category',newCatPh:'New category name',member:'Member',common:'Shared',note:'Note (optional)',add:'Add',saveChanges:'Save changes',save:'Save',del:'Delete',delQ:'Delete this transaction?',yesDel:'Yes, delete',upload:'Upload bank statement',uploadHint:'.xlsx or .csv · stays on your device',impTitle:'Statement import',impLead:'{n} rows read, with suggested categories. Untick what you don’t want and tap a category to change it.',impSel:'{n} of {t} selected · income {i} · expenses {e}',impBtn:'Import {n} transactions',impDup:' · Already added',impDone:'Done, {n} transactions imported.',openMonth:'Open {m}',byMonth:'By month',pctLeft:'{p}% of income left',spent:'{p}% of income spent',resetMonth:'Reset month',resetT:'Reset {m}?',resetQ:'All {n} transactions in this month will be deleted and the values become 0.',resetYes:'Yes, reset',emptyMonth:'No transactions in {m}. Tap + to add the first one.',emptyAll:'No transactions yet. Tap + to add the first one.',histLead:'Every month with transactions. Tap a month to open it.',histEmpty:'Months appear after you add the first transaction.',transactions:'Transactions',byMember:'By member',membersH:'Members',addMember:'New member',customCats:'Custom categories',noCustom:'Create them from the form with “+ New category”.',language:'Language',danger:'Danger zone',delProf_personal:'Delete this profile',delProf_household:'Delete this household',delProfT:'Delete “{n}”?',delProfQ:'The profile and all its transactions will be deleted.',delMemT:'Remove {n}?',delMemQ:'Their transactions move to “Shared”.',okAdded:'Transaction added.',okSaved:'Changes saved.',okDeleted:'Transaction deleted.',okRenamed:'Name saved.',errAmount:'Enter an amount greater than 0.',errDate:'Pick a date.',errName:'Enter a name.',errMember:'Add at least one member.',errCat:'Enter the new category name.',errCur:'Pick at least one currency.',errCurLast:'At least one currency must remain.',errCurTx:'{c} has transactions and cannot be removed.',back:'Back',noYear:'No transactions in this period.',demoFile:'statement_sample.xlsx',txN:'{n} transactions',tx1:'1 transaction',thisMonth:'this month',kInc:'income',kExp:'expense'}
 };
 const KEYWORDS={
   income:[
@@ -3270,11 +3284,93 @@ const ON=c=>({bg:'color-mix(in srgb,'+c+' 12%,transparent)',bc:c,fg:c});
 const OFF={bg:'transparent',bc:'var(--color-divider)',fg:'var(--color-neutral-300)'};
 
 class Component extends DCLogic {
-  scrollRef=React.createRef();
+  scrollRef=React.createRef();screenRef=React.createRef();toastRef=React.createRef();sheetRef=React.createRef();sheetBgRef=React.createRef();dlgRef=React.createRef();dlgBgRef=React.createRef();
+  mOn(){return (this.props.motion??true)&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
+  ms(d){return d/(this.props.motionSpeed??1)}
+  depth(s){return (s.screen==='home'?0:s.screen==='list'?1:2)+(s.imp?1:0)}
+  layers(){const sc=this.screenRef.current;return sc?Array.from(sc.querySelectorAll(':scope > [data-layer]')):[]}
+  clearSnap(){if(this._snap){this._snap.remove();this._snap=null}this.layers().forEach(el=>{el.getAnimations().forEach(a=>a.cancel());el.style.zIndex='';el.style.background=''})}
+  snapshot(){
+    this.clearSnap();const sc=this.screenRef.current;if(!sc)return null;
+    const w=document.createElement('div');this._bg=getComputedStyle(sc).backgroundImage;
+    w.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:1;background-color:var(--color-bg);background-image:'+this._bg;
+    const pairs=[];
+    this.layers().forEach(el=>{const c=el.cloneNode(true);w.appendChild(c);const a=[el].concat(Array.from(el.querySelectorAll('.mb-scroll'))),b=[c].concat(Array.from(c.querySelectorAll('.mb-scroll')));a.forEach((x,i)=>b[i]&&pairs.push([b[i],x.scrollTop]))});
+    sc.appendChild(w);pairs.forEach(([c,t])=>{c.scrollTop=t});this._snap=w;return w;
+  }
+  nav(patch,o){
+    o=o||{};const st=this.state,before=this.depth(st),after=this.depth(Object.assign({},st,patch));
+    const dir=after>before?'push':after<before?'pop':'fade',on=this.mOn();this._prevTab=st.screen==='profile'?st.tab:null;
+    const w=on&&dir!=='fade'?this.snapshot():null;
+    this.setState(patch,()=>{if(!o.keepScroll)this.top();if(on)this.animateIn(dir,w)});
+  }
+  animateIn(dir,w){
+    const E='cubic-bezier(.32,.72,0,1)',D=this.ms(480),imp=!!this.state.imp;
+    const ls=this.layers().filter(el=>imp?el.dataset.layer==='overlay':el.dataset.layer!=='overlay');
+    const page=ls.find(el=>el.dataset.layer==='page'),fab=ls.find(el=>el.dataset.layer==='fab');
+    const end=()=>{if(w&&w===this._snap){w.remove();this._snap=null}ls.forEach(el=>{el.style.zIndex='';el.style.background=''})};
+    if(dir==='push'&&w){
+      w.style.zIndex='1';
+      w.animate([{transform:'none',filter:'brightness(1)'},{transform:'translateX(-28%)',filter:'brightness(.5)'}],{duration:D,easing:E,fill:'forwards'});
+      ls.forEach(el=>{if(el===page){el.style.zIndex='2';el.style.backgroundColor='var(--color-bg)';el.style.backgroundImage=this._bg}
+        el.animate([{transform:'translateX(100%)',boxShadow:'-16px 0 40px rgba(0,0,0,0)'},{transform:'none',boxShadow:'-16px 0 40px rgba(0,0,0,.5)'}],{duration:D,easing:E}).onfinish=end});
+      if(!ls.length)end();
+    }else if(dir==='pop'&&w){
+      w.style.zIndex='25';
+      w.animate([{transform:'none',boxShadow:'-16px 0 40px rgba(0,0,0,.5)'},{transform:'translateX(100%)',boxShadow:'-16px 0 40px rgba(0,0,0,0)'}],{duration:D,easing:E,fill:'forwards'}).onfinish=end;
+      ls.forEach(el=>el.animate([{transform:'translateX(-28%)',filter:'brightness(.5)'},{transform:'none',filter:'brightness(1)'}],{duration:D,easing:E}));
+    }else if(page){
+      const root=page.firstElementChild;
+      if(root)Array.from(root.children).slice(this.state.screen==='profile'?1:0,11).forEach((el,i)=>el.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:this.ms(380),delay:this.ms(i*32),easing:E,fill:'backwards'}));
+      if(fab&&this._prevTab!=='overview')fab.animate([{transform:'scale(.3) rotate(-90deg)',opacity:0},{transform:'none',opacity:1}],{duration:this.ms(460),delay:this.ms(120),easing:'cubic-bezier(.34,1.5,.64,1)',fill:'backwards'});
+    }
+    if(this.state.tab==='charts')this.drawChart(dir==='fade'?0:D*.6);
+  }
+  slideMonth(d){
+    if(!this.mOn()||!this.screenRef.current)return;
+    this.screenRef.current.querySelectorAll('[data-month]').forEach((el,i)=>el.animate([{opacity:0,transform:d?'translateX('+d*28+'px)':'translateY(8px)'},{opacity:1,transform:'none'}],{duration:this.ms(340),delay:this.ms(Math.min(i,6)*30),easing:'cubic-bezier(.32,.72,0,1)',fill:'backwards'}));
+  }
+  drawChart(delay){
+    if(!this.mOn()||!this.screenRef.current)return;const sc=this.screenRef.current;delay=delay||0;
+    sc.querySelectorAll('[data-draw]').forEach((p,i)=>{let len=0;try{len=p.getTotalLength()}catch(e){}if(!len)return;p.animate([{strokeDasharray:len+' '+len,strokeDashoffset:len},{strokeDasharray:len+' '+len,strokeDashoffset:0}],{duration:this.ms(950),delay:delay+this.ms(i*90),easing:'cubic-bezier(.65,0,.35,1)',fill:'backwards'})});
+    sc.querySelectorAll('[data-late]').forEach(p=>p.animate([{opacity:0},{opacity:1}],{duration:this.ms(400),delay:delay+this.ms(650),fill:'backwards'}));
+  }
+  out(ref,kf,d,cb,ease){const el=ref.current;if(!el||!this.mOn()){cb&&cb();return}const a=el.animate(kf,{duration:this.ms(d),easing:ease||'ease-in',fill:'forwards'});if(cb)a.onfinish=cb}
+  dismiss(cb){
+    const dl=this.dlgRef.current,sh=this.sheetRef.current;
+    if(!this.mOn()||(!dl&&!sh))return cb();
+    if(this._dis)return;this._dis=true;const fin=()=>{this._dis=false;cb()};
+    if(dl){this.out(this.dlgBgRef,[{opacity:1},{opacity:0}],200);this.out(this.dlgRef,[{opacity:1,transform:'none'},{opacity:0,transform:'scale(.94)'}],200,fin)}
+    else{const bg=this.sheetBgRef.current;this.out(this.sheetBgRef,[{opacity:bg?getComputedStyle(bg).opacity:1},{opacity:0}],320);this.out(this.sheetRef,[{transform:sh.style.transform||'translateY(0)'},{transform:'translateY(100%)'}],340,fin,'cubic-bezier(.32,.72,0,1)')}
+  }
+  closeSheet(){this.dismiss(()=>this.setState({sheet:null,askDelTx:false}))}
+  sheetDrag=e=>{
+    const el=this.sheetRef.current,bg=this.sheetBgRef.current;if(!el)return;
+    el.getAnimations().forEach(a=>a.finish());
+    const y0=e.clientY;let dy=0,last=y0,lt=performance.now(),vel=0;
+    const mv=ev=>{const raw=ev.clientY-y0;dy=raw<0?raw/5:raw;const now=performance.now();vel=(ev.clientY-last)/Math.max(1,now-lt);last=ev.clientY;lt=now;el.style.transform='translateY('+dy+'px)';if(bg)bg.style.opacity=String(Math.max(0,1-dy/el.offsetHeight))};
+    const up=()=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
+      if(dy>el.offsetHeight*.28||vel>.5)this.closeSheet();
+      else{const from=el.style.transform;el.style.transform='';if(bg)bg.style.opacity='';el.animate([{transform:from},{transform:'none'}],{duration:this.ms(380),easing:'cubic-bezier(.34,1.3,.64,1)'})}};
+    window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+  };
+  componentDidMount(){
+    const sc=this.screenRef.current;if(!sc)return;
+    this._pd=e=>{
+      if(!this.mOn())return;const b=e.target.closest&&e.target.closest('button');if(!b||b.disabled||!sc.contains(b))return;
+      if(this.props.haptics??true){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}
+      const r=b.getBoundingClientRect(),k=r.width>220?.975:r.width>90?.955:.88;
+      const hold=b.animate([{transform:'scale(1)',filter:'brightness(1)'},{transform:'scale('+k+')',filter:'brightness(.88)'}],{duration:this.ms(120),easing:'cubic-bezier(.2,.8,.3,1)',fill:'forwards'});
+      const rel=()=>{window.removeEventListener('pointerup',rel);window.removeEventListener('pointercancel',rel);const cur=getComputedStyle(b).transform;hold.cancel();b.animate([{transform:cur==='none'?'scale(1)':cur,filter:'brightness(.88)'},{transform:'scale(1)',filter:'brightness(1)'}],{duration:this.ms(480),easing:'cubic-bezier(.34,1.9,.5,1)'})};
+      window.addEventListener('pointerup',rel);window.addEventListener('pointercancel',rel);
+    };
+    sc.addEventListener('pointerdown',this._pd);
+  }
   state=(()=>{
     let db=null;try{db=JSON.parse(localStorage.getItem(KEY))}catch(e){}
     if(!db||!Array.isArray(db.profiles))db=seed();
     let lang=null;try{lang=localStorage.getItem(KEY+'-lang')}catch(e){}
+    try{const self=this;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__bip=e;self.setState({bip:1})});window.addEventListener('appinstalled',function(){window.__bip=null;self.setState({instHide:true})})}catch(e){}
     const st={db,lang,screen:'home',kind:'personal',pid:null,tab:'overview',month:TM,all:false,cur:null,sheet:null,form:null,np:null,dlg:null,chartEnd:TM,chartSel:null,imp:null,toast:null,setName:'',memberDraft:'',curDraft:'',setErr:'',askDelTx:false};
     const sc=this.props.startScreen||'home';
     if(sc!=='home'){const p=db.profiles.find(x=>x.type===(sc==='household'?'household':'personal'))||db.profiles[0];if(p){st.screen='profile';st.pid=p.id;st.kind=p.type;st.setName=p.name;if(sc==='charts')st.tab='charts';if(sc==='history')st.tab='history'}}
@@ -3294,9 +3390,9 @@ class Component extends DCLogic {
   cats(p,t){return DEF[t].concat(p.cats[t])}
   commit(extra){const db=this.state.db;try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}this.setState(Object.assign({db:{profiles:db.profiles.slice()}},extra||{}))}
   top(){const el=this.scrollRef.current;if(el)el.scrollTop=0}
-  go(patch){this.setState(Object.assign({sheet:null,dlg:null,imp:null,askDelTx:false,setErr:''},patch),()=>this.top())}
-  flash(msg){clearTimeout(this._t);this.setState({toast:msg});this._t=setTimeout(()=>this.setState({toast:null}),2200)}
-  componentWillUnmount(){clearTimeout(this._t)}
+  go(patch){this.nav(Object.assign({sheet:null,dlg:null,imp:null,askDelTx:false,setErr:''},patch))}
+  flash(msg){clearTimeout(this._t);if(this.toastRef.current)this.toastRef.current.getAnimations().forEach(a=>a.cancel());this.setState({toast:msg});this._t=setTimeout(()=>this.out(this.toastRef,[{transform:'none',opacity:1},{transform:'translateY(-18px) scale(.97)',opacity:0}],240,()=>this.setState({toast:null})),2200)}
+  componentWillUnmount(){clearTimeout(this._t);const sc=this.screenRef.current;if(sc&&this._pd)sc.removeEventListener('pointerdown',this._pd);this.clearSnap()}
   setLang(l){try{localStorage.setItem(KEY+'-lang',l)}catch(e){}this.setState({lang:l})}
   openProfile(id){const p=this.state.db.profiles.find(x=>x.id===id);this.go({screen:'profile',pid:id,kind:p.type,tab:'overview',month:TM,all:false,cur:null,chartEnd:TM,chartSel:null,setName:p.name,memberDraft:''})}
   periodTx(p){const c=this.cc(p),st=this.state;return p.tx.filter(x=>(x.cur||'RON')===c&&(st.all||x.date.slice(0,7)===st.month))}
@@ -3317,10 +3413,10 @@ class Component extends DCLogic {
     if(f.editId){const e=p.tx.find(x=>x.id===f.editId);if(e)Object.assign(e,{type:f.type,amount,date:f.date,cat,note:f.note.trim(),member})}
     else p.tx.push({id:uid(),ts:Date.now(),type:f.type,amount,date:f.date,cat,note:f.note.trim(),member,cur:this.cc(p)});
     this._lastCat=cat;this._lastMem=member;
-    this.commit({sheet:null,form:null,month:this.state.all?this.state.month:f.date.slice(0,7)});
-    this.flash(f.editId?s.okSaved:s.okAdded);
+    const mo=this.state.all?this.state.month:f.date.slice(0,7),moved=mo!==this.state.month;
+    this.dismiss(()=>{this.commit({sheet:null,form:null,month:mo});this.flash(f.editId?s.okSaved:s.okAdded);if(moved)setTimeout(()=>this.slideMonth(0))});
   }
-  delTx(){const p=this.cur(),id=this.state.form.editId;p.tx=p.tx.filter(x=>x.id!==id);this.commit({sheet:null,form:null,askDelTx:false});this.flash(this.s().okDeleted)}
+  delTx(){const p=this.cur(),id=this.state.form.editId;p.tx=p.tx.filter(x=>x.id!==id);this.dismiss(()=>{this.commit({sheet:null,form:null,askDelTx:false});this.flash(this.s().okDeleted)})}
   openNew(){this.setState({sheet:'new',np:{name:'',members:'',curs:['RON'],extra:[],cust:'',err:''}})}
   setNp(patch){this.setState(s=>({np:Object.assign({},s.np,patch)}))}
   createProfile(){
@@ -3330,7 +3426,7 @@ class Component extends DCLogic {
     if(hh&&!members.length)return this.setNp({err:s.errMember});
     if(!np.curs.length)return this.setNp({err:s.errCur});
     const p={id:uid(),type:this.state.kind,name,members,currencies:PRESET.concat(np.extra||[]).filter(c=>np.curs.includes(c)),cats:{income:[],expense:[]},tx:[]};
-    this.state.db.profiles.push(p);this.commit();this.openProfile(p.id);
+    this.state.db.profiles.push(p);this.dismiss(()=>{this.commit({sheet:null});this.openProfile(p.id)});
   }
   openImport(){const el=document.getElementById('impfile');if(el)el.click()}
   async handleFile(file){
@@ -3392,7 +3488,7 @@ class Component extends DCLogic {
   resetData(){const db=seed();try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}this.setState({db,screen:'home',pid:null,sheet:null,dlg:null,imp:null},()=>this.top())}
   chart(p){
     const st=this.state,map=this.monthMap(p),keys=Object.keys(map).sort(),c=this.cc(p);
-    const ks=[];for(let i=11;i>=0;i--)ks.push(shiftMonth(st.chartEnd,-i));
+    const ks=[];if(keys.length){let k=keys[0];const last=keys[keys.length-1];while(k<=last&&ks.length<600){ks.push(k);k=shiftMonth(k,1)}}const N=ks.length;
     const d=ks.map(k=>{const m=map[k];return {k,has:!!m,inc:m?m.inc:0,exp:m?m.exp:0,sav:m?m.inc-m.exp:0}});
     const any=d.some(o=>o.has);
     const W=306,H=180,ml=36,mr=8,mt=8,mb=4,pw=W-ml-mr,ph=H-mt-mb;
@@ -3400,13 +3496,13 @@ class Component extends DCLogic {
     let mn=Math.min(...vals),mx=Math.max(...vals);if(mx===mn)mx=mn+1;
     const span=mx-mn;let step=Math.pow(10,Math.floor(Math.log10(span/4)));const err=span/4/step;step*=err>=7.5?10:err>=3.5?5:err>=1.5?2:1;
     const lo=Math.floor(mn/step)*step,hi=Math.ceil(mx/step)*step,ticks=[];for(let v=lo;v<=hi+step/2;v+=step)ticks.push(Math.round(v*100)/100);
-    const X=i=>ml+pw*i/11,Y=v=>mt+ph*(1-(v-lo)/(hi-lo));
+    const X=i=>N>1?ml+pw*i/(N-1):ml+pw/2,Y=v=>mt+ph*(1-(v-lo)/(hi-lo));
     const cf=new Intl.NumberFormat(this.loc(),{notation:'compact',maximumFractionDigits:1});
-    const line=key=>{let out='',run=false;d.forEach((o,i)=>{if(o.has){out+=(run?' L':' M')+X(i).toFixed(1)+','+Y(o[key]).toFixed(1);run=true}else run=false});return out.trim()};
+    const line=key=>{let out='',run=false;d.forEach((o,i)=>{if(o.has){out+=(run?' L':' M')+X(i).toFixed(1)+','+Y(o[key]).toFixed(1);run=true}});return out.trim()};
     const dots=(key,r)=>d.map((o,i)=>o.has?'M'+(X(i)-r).toFixed(1)+','+Y(o[key]).toFixed(1)+' a'+r+','+r+' 0 1,0 '+2*r+',0 a'+r+','+r+' 0 1,0 '+(-2*r)+',0':'').join(' ');
-    let area='';{let run=[];const flush=()=>{if(run.length>1)area+=' M'+run.map(q=>q.join(',')).join(' L')+' L'+run[run.length-1][0]+','+Y(0).toFixed(1)+' L'+run[0][0]+','+Y(0).toFixed(1)+' Z';run=[]};d.forEach((o,i)=>{if(o.has)run.push([X(i).toFixed(1),Y(o.sav).toFixed(1)]);else flush()});flush()}
+    let area='';{let run=[];const flush=()=>{if(run.length>1)area+=' M'+run.map(q=>q.join(',')).join(' L')+' L'+run[run.length-1][0]+','+Y(0).toFixed(1)+' L'+run[0][0]+','+Y(0).toFixed(1)+' Z';run=[]};d.forEach((o,i)=>{if(o.has)run.push([X(i).toFixed(1),Y(o.sav).toFixed(1)])});flush()}
     let sel=st.chartSel;if(sel==null||!d[sel]){sel=-1;d.forEach((o,i)=>{if(o.has)sel=i})}
-    const mf=new Intl.DateTimeFormat(this.loc(),{month:'short'});
+    const mf=new Intl.DateTimeFormat(this.loc(),{month:'short'});const every=Math.max(1,Math.ceil(N/8));const multiY=N>12;
     const ch={
       grid:ticks.filter(v=>v!==0).map(v=>'M'+ml+','+Y(v).toFixed(1)+' H'+(W-mr)).join(' '),
       zero:'M'+ml+','+Y(0).toFixed(1)+' H'+(W-mr),
@@ -3414,19 +3510,21 @@ class Component extends DCLogic {
       inc:line('inc'),exp:line('exp'),sav:line('sav'),savArea:area.trim(),
       dInc:dots('inc',3),dExp:dots('exp',3),dSav:dots('sav',3),
       yTicks:ticks.map(v=>({label:cf.format(v),top:(Y(v)-7).toFixed(1)+'px'})),
-      cols:d.map((o,i)=>{const pp=o.k.split('-');const lab=mf.format(new Date(+pp[0],+pp[1]-1,1)).replace('.','').slice(0,3);return {left:(X(i)-pw/22).toFixed(1)+'px',width:(pw/11).toFixed(1)+'px',label:lab,aria:this.mLabel(o.k),fg:i===sel?'var(--color-accent-300)':'var(--color-neutral-500)',onClick:()=>this.setState({chartSel:i})}})
+      cols:d.map((o,i)=>{const pp=o.k.split('-');let lab=mf.format(new Date(+pp[0],+pp[1]-1,1)).replace('.','').slice(0,3);if(multiY)lab+='\u00a0'+pp[0].slice(2);if(i!==N-1&&(i%every!==0||N-1-i<every))lab='';const cw=N>1?pw/(N-1):pw;return {left:(X(i)-cw/2).toFixed(1)+'px',width:cw.toFixed(1)+'px',label:lab,aria:this.mLabel(o.k),fg:i===sel?'var(--color-accent-300)':'var(--color-neutral-500)',onClick:()=>this.setState({chartSel:i})}})
     };
     const so=sel>=0?d[sel]:null;
     const selV=so?{label:this.mLabel(so.k),inc:this.fmt(so.inc,c),exp:this.fmt(so.exp,c),sav:this.fmt(so.sav,c),savColor:so.sav<0?EXP:SAV}:null;
     const fm=new Intl.DateTimeFormat(this.loc(),{month:'short',year:'numeric'});const lab=k=>{const q=k.split('-');return fm.format(new Date(+q[0],+q[1]-1,1))};
     const C=2*Math.PI*28;
+    let ti=0,te=0;d.forEach(o=>{ti+=o.inc;te+=o.exp});const tt=ti+te,tg=tt>0?ti/tt*C:0,tr=tt>0?C-tg:0,ts=ti-te;
+    const tot={inc:this.fmt(ti,c),exp:this.fmt(te,c),sav:this.fmt(ts,c),savColor:ts<0?EXP:SAV,gDash:tg.toFixed(2)+' '+(C-tg).toFixed(2),rDash:tr.toFixed(2)+' '+(C-tr).toFixed(2),rOff:(-tg).toFixed(2),pct:ti>0?Math.round(ts/ti*100)+'%':'–',pctColor:ti>0&&ts>=0?'var(--color-accent-300)':'var(--color-text)'};
     const rows=d.slice().reverse().filter(o=>o.has).map(o=>{const tot=o.inc+o.exp,g=tot>0?o.inc/tot*C:0,rr=tot>0?C-g:0;return {label:this.mLabel(o.k),inc:this.fmt(o.inc,c),exp:this.fmt(o.exp,c),sav:this.fmt(o.sav,c),savColor:o.sav<0?EXP:SAV,gDash:g.toFixed(2)+' '+(C-g).toFixed(2),rDash:rr.toFixed(2)+' '+(C-rr).toFixed(2),rOff:(-g).toFixed(2),pct:o.inc>0?Math.round(o.sav/o.inc*100)+'%':'–',pctColor:o.inc>0&&o.sav>=0?'var(--color-accent-300)':'var(--color-text)'}});
-    return {ch,any,sel:selV,rows,label:lab(ks[0])+' – '+lab(ks[11])};
+    return {ch,any,sel:selV,rows,tot,label:N?lab(ks[0])+' – '+lab(ks[N-1]):''};
   }
   renderVals(){
     const st=this.state,s=this.s(),L=this.L(),p=this.cur();
-    const v={s,scrollRef:this.scrollRef,showNotes:this.props.showNotes??true};
-    v.isHome=st.screen==='home';v.isList=st.screen==='list';v.isProfile=st.screen==='profile'&&!!p;
+    const v={s,scrollRef:this.scrollRef,screenRef:this.screenRef,toastRef:this.toastRef,sheetRef:this.sheetRef,sheetBgRef:this.sheetBgRef,dlgRef:this.dlgRef,dlgBgRef:this.dlgBgRef,sheetDrag:this.sheetDrag,showNotes:this.props.showNotes??true};
+    v.isHome=st.screen==='home';{let sa=false,ios=false,hid=false;try{sa=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;ios=/iphone|ipad|ipod/i.test(navigator.userAgent);hid=localStorage.getItem(KEY+'-inst')==='1'}catch(e){}v.showInst=!sa&&!hid&&!st.instHide;v.hasBip=!!window.__bip;v.instText=v.hasBip?s.instBip:(ios?s.instIos:s.instAnd);v.doInstall=()=>{const e=window.__bip;if(!e)return;try{e.prompt();Promise.resolve(e.userChoice).then(r=>{window.__bip=null;this.setState(r&&r.outcome==='accepted'?{instHide:true}:{bip:0})})}catch(x){}};v.topGap=v.showInst?'28px':'64px';v.hideInst=()=>{try{localStorage.setItem(KEY+'-inst','1')}catch(e){}this.setState({instHide:true})}}v.isList=st.screen==='list';v.isProfile=st.screen==='profile'&&!!p;
     v.langOpts=['ro','en'].map(k=>({short:k.toUpperCase(),label:k==='ro'?'Română':'English',fg:k===L?ACC:'var(--color-neutral-300)',sh:k===L?'inset 0 0 0 1px var(--color-accent)':'none',onClick:()=>this.setLang(k)}));
     const count=k=>{const n=st.db.profiles.filter(x=>x.type===k).length;if(L==='en')return n+' '+(k==='household'?(n===1?'household':'households'):(n===1?'profile':'profiles'));return k==='household'?(n===1?'1 gospodărie':n+' gospodării'):(n===1?'1 profil':n+' profile')};
     v.cntPersonal=count('personal');v.cntHousehold=count('household');
@@ -3444,15 +3542,15 @@ class Component extends DCLogic {
       v.isHH=hh;v.pName=p.name;v.pKind=hh?s.household:s.personal;
       v.goList=()=>this.go({screen:'list',kind:p.type});
       const cs=this.pcur(p);v.hasCurs=cs.length>1;
-      v.curOpts=cs.map(x=>({label:x,fg:x===c?ACC:'var(--color-neutral-300)',sh:x===c?'inset 0 0 0 1px var(--color-accent)':'none',onClick:()=>this.setState({cur:x,chartSel:null})}));
-      v.tabs=[['overview',s.overview,ICON.wallet],['history',s.history,ICON.clock],['charts',s.charts,ICON.chart],['settings',s.settings,ICON.sliders]].map(([k,l,ic])=>({label:l,icon:ic,color:st.tab===k?'var(--color-accent-300)':'var(--color-neutral-500)',mark:st.tab===k?ACC:'transparent',onClick:()=>this.go({tab:k,setName:p.name})}));
+      v.curOpts=cs.map(x=>({label:x,fg:x===c?ACC:'var(--color-neutral-300)',sh:x===c?'inset 0 0 0 1px var(--color-accent)':'none',onClick:()=>this.setState({cur:x,chartSel:null},()=>{this.slideMonth(0);if(this.state.tab==='charts')this.drawChart()})}));
+      v.tabs=[['overview',s.overview,ICON.wallet],['history',s.history,ICON.clock],['charts',s.charts,ICON.chart],['settings',s.settings,ICON.sliders]].map(([k,l,ic])=>({label:l,icon:ic,color:st.tab===k?'var(--color-accent-300)':'var(--color-neutral-500)',mark:st.tab===k?ACC:'transparent',onClick:()=>{if(k===st.tab){const el=this.scrollRef.current;if(el)el.scrollTo({top:0,behavior:'smooth'})}else this.go({tab:k,setName:p.name})}}));
       v.tOverview=st.tab==='overview';v.tHistory=st.tab==='history';v.tCharts=st.tab==='charts';v.tSettings=st.tab==='settings';
       v.showTabbar=!inImp;v.showFab=v.tOverview&&!inImp;v.openAdd=()=>this.openAdd();v.openImport=()=>this.openImport();v.onImpFile=e=>this.onImpFile(e);v.flipImp=()=>this.flipImp();v.exportData=()=>this.exportData();v.pickBackup=()=>this.pickBackup();v.onBackupFile=e=>this.onBackupFile(e);
       if(v.tOverview){
         const list=this.periodTx(p),t=this.tot(list);
         v.isMonth=!st.all;v.monthLabel=st.all?s.allTime:this.mLabel(st.month);
-        v.prevMonth=()=>this.setState({month:shiftMonth(st.month,-1)});v.nextMonth=()=>this.setState({month:shiftMonth(st.month,1)});
-        v.toggleAll=()=>this.setState({all:!st.all});v.allBc=st.all?ACC:'var(--color-divider)';v.allFg=st.all?ACC:'var(--color-neutral-300)';
+        v.prevMonth=()=>this.setState({month:shiftMonth(st.month,-1)},()=>this.slideMonth(-1));v.nextMonth=()=>this.setState({month:shiftMonth(st.month,1)},()=>this.slideMonth(1));
+        v.toggleAll=()=>this.setState({all:!st.all},()=>this.slideMonth(0));v.allBc=st.all?ACC:'var(--color-divider)';v.allFg=st.all?ACC:'var(--color-neutral-300)';
         v.bal=this.fmt(t.bal,c);v.balColor=t.bal<0?EXP:'var(--color-text)';v.inc=this.fmt(t.inc,c);v.exp=this.fmt(t.exp,c);
         const pct=t.inc>0?Math.round(t.exp/t.inc*100):null;
         v.spentW=(pct===null?(t.exp>0?100:0):Math.min(100,pct))+'%';v.spentColor=pct!==null&&pct<=100?ACC:EXP;v.spentCap=pct===null?'':fill(s.spent,{p:pct});
@@ -3472,8 +3570,8 @@ class Component extends DCLogic {
           onReset:()=>this.setState({dlg:{title:fill(s.resetT,{m:this.mLabel(m)+(this.pcur(p).length>1?' ('+c+')':'')}),body:fill(s.resetQ,{n:x.n}),yes:s.resetYes,run:()=>{p.tx=p.tx.filter(y=>!(y.date.slice(0,7)===m&&(y.cur||'RON')===c));this.commit({dlg:null})}}})}});
       }
       if(v.tCharts){
-        const r=this.chart(p);v.ch=r.ch;v.hasYear=r.any;v.noYear=!r.any;v.sel=r.sel;v.selShow=!!r.sel;v.monthRows=r.rows;v.winLabel=r.label;
-        v.winPrev=()=>this.setState({chartEnd:shiftMonth(st.chartEnd,-12),chartSel:null});v.winNext=()=>this.setState({chartEnd:shiftMonth(st.chartEnd,12),chartSel:null});
+        const r=this.chart(p);v.ch=r.ch;v.hasYear=r.any;v.noYear=!r.any;v.tot=r.tot;v.sel=r.sel;v.selShow=!!r.sel;v.monthRows=r.rows;v.winLabel=r.label;
+        
       }
       if(v.tSettings){
         v.curDraft=st.curDraft||'';v.onCurDraft=e=>this.setState({curDraft:e.target.value});v.onAddCur=()=>{const c=normCur(st.curDraft);if(!c)return;const cl=this.pcur(p).slice();if(!cl.includes(c))cl.push(c);p.currencies=cl;this.commit({curDraft:'',setErr:''})};v.setName=st.setName;v.onSetName=e=>this.setState({setName:e.target.value});
@@ -3491,7 +3589,7 @@ class Component extends DCLogic {
       }
       v.impOpen=inImp;v.impFile=inImp?(st.imp.file||''):'';v.impLeadText=inImp?fill(s.impLead,{n:st.imp.rows.length}):'';
       if(inImp){
-        const imp=st.imp;v.impDone=!!imp.done;v.impReview=!imp.done;v.impBack=()=>this.setState({imp:null});
+        const imp=st.imp;v.impDone=!!imp.done;v.impReview=!imp.done;v.impBack=()=>this.nav({imp:null},{keepScroll:true});
         if(imp.done){v.impDoneText=fill(s.impDone,{n:imp.done.n});v.impOpenLabel=fill(s.openMonth,{m:this.mLabel(imp.done.month)});v.impOpenMonth=()=>this.go({tab:'overview',month:imp.done.month,all:false})}
         let n=0,ti=0,te=0;imp.rows.forEach(r=>{if(r.on){n++;if(r.type==='income')ti+=r.amount;else te+=r.amount}});
         v.impSummary=fill(s.impSel,{n,t:imp.rows.length,i:this.fmt(ti,c),e:this.fmt(te,c)});v.impBtn=fill(s.impBtn,{n});v.impDisabled=!n;v.doImport=()=>this.doImport();
@@ -3501,7 +3599,7 @@ class Component extends DCLogic {
           cats:opts.map(x=>Object.assign({label:this.cl(x),onClick:()=>this.setImp(m=>{m.rows[i].cat=x;m.edit=-1})},x===r.cat?ON(ACC):OFF))}});
       }
     }
-    v.sheetOpen=!!st.sheet;v.closeSheet=()=>this.setState({sheet:null,askDelTx:false});
+    v.sheetOpen=!!st.sheet;v.closeSheet=()=>this.closeSheet();
     v.sheetTx=st.sheet==='tx'&&!!st.form&&!!p;v.sheetNew=st.sheet==='new'&&!!st.np;
     if(v.sheetTx){
       const f=st.form,hh=p.type==='household',c=this.cc(p);v.form=f;v.isHH=hh;
@@ -3521,7 +3619,7 @@ class Component extends DCLogic {
       v.npCurChips=PRESET.concat(np.extra||[]).map(x=>Object.assign({label:x,onClick:()=>this.setNp({curs:np.curs.includes(x)?np.curs.filter(z=>z!==x):np.curs.concat([x]),err:''})},np.curs.includes(x)?ON(ACC):OFF));
       v.createProfile=()=>this.createProfile();
     }
-    v.dlgOpen=!!st.dlg;v.dlg=st.dlg;v.dlgCancel=()=>this.setState({dlg:null});v.dlgYes=()=>st.dlg&&st.dlg.run();
+    v.dlgOpen=!!st.dlg;v.dlg=st.dlg;v.dlgCancel=()=>this.dismiss(()=>this.setState({dlg:null}));v.dlgYes=()=>{const d=st.dlg;if(d)this.dismiss(()=>d.run())};
     v.hasToast=!!st.toast;v.toast=st.toast;
     const pers=st.db.profiles.find(x=>x.type==='personal'),hhp=st.db.profiles.find(x=>x.type==='household');
     const openTab=(pr,tab,after)=>{if(!pr)return;this.openProfile(pr.id);this.setState({tab},after)};
